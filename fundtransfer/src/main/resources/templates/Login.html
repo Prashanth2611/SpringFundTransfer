@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+    <body>
+        <!-- show notification on error -->
+        <div th:if="${param.error}">
+            Invalid username or password.
+        </div>
+
+        <!-- show notification of logout -->
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+        <div>
+            <form method="post" th:action="/login" method="post">
+                <h2 >Please sign in for Fund Transfer</h2>
+                <label >User Name</label>
+                <input type="text" name="username" th:required="required" th:autofocus="autofocus"/>
+                <br/>
+                
+                <label>Password</label>
+                <input type="password" name="password" th:required="required" />
+                <br/>
+                 <button type="submit" class="btnRegister" style="align : center">Log in</button>
+            </form>
+        </div>
+    </body>
+</html>
