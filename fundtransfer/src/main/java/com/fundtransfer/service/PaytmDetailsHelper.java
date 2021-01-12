@@ -38,6 +38,7 @@ public class PaytmDetailsHelper {
 	private CustomerRepository customRepo;
 
 	/**
+	 * Construct the Request details
 	 * @param customerId
 	 * @param transactionAmount
 	 * @param orderId
@@ -66,6 +67,10 @@ public class PaytmDetailsHelper {
 		return modelAndView;
 	}
 
+	/**
+	 * fetches user name from current thread
+	 * @return
+	 */
 	public static String getUserName() {
 		SecurityContext securityContext = SecurityContextHolder.getContext();
 		Authentication authentication = securityContext.getAuthentication();
@@ -80,6 +85,7 @@ public class PaytmDetailsHelper {
 	}
 
 	/**
+	 * Construct the Response details
 	 * @param request
 	 * @param model
 	 */
@@ -110,17 +116,6 @@ public class PaytmDetailsHelper {
 		}
 		List<String> status = Arrays.asList("Payment Successful", "TXN_FAILURE", "Checksum mismatched");
 
-		/*
-		 * if(parameters!=null && status.contains(result)) { TransactionDetails txn= new
-		 * TransactionDetails();
-		 * txn.setTransactionId(parameters.get("TXNID")!=null?parameters.get("TXNID"):
-		 * parameters.get("TXNAMOUNT")+11);
-		 * txn.setOrderID(parameters.get("orderID")!=null?parameters.get("orderID"):
-		 * parameters.get("TXNAMOUNT")+64);
-		 * txn.setTransAmount(parameters.get("TXNAMOUNT"));
-		 * txn.setTransactionStatus(parameters.get("STATUS")); txn.setAccount(account);
-		 * transactionRepository.; }
-		 */
 		model.addAttribute("result", result);
 		parameters.remove("CHECKSUMHASH");
 		model.addAttribute("parameters", parameters);
@@ -138,10 +133,21 @@ public class PaytmDetailsHelper {
 		model.addAttribute("custid", customerDetails.getCustomerId().toString());
 	}
 
+	/**
+	 * @param parameters
+	 * @param paytmChecksum
+	 * @return
+	 * @throws Exception
+	 */
 	public boolean validateCheckSum(TreeMap<String, String> parameters, String paytmChecksum) throws Exception {
 		return PaytmChecksum.verifySignature(parameters, payTmDetails.getMerchantKey(), paytmChecksum);
 	}
 
+	/**
+	 * @param parameters
+	 * @return
+	 * @throws Exception
+	 */
 	public String getCheckSum(TreeMap<String, String> parameters) throws Exception {
 		return PaytmChecksum.generateSignature(parameters, payTmDetails.getMerchantKey());
 	}
